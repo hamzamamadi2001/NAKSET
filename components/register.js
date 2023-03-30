@@ -8,6 +8,7 @@ import {signIn,signOut,useSession} from 'next-auth/react'
 import { useRouter } from 'next/router'
   import { BsTwitter } from 'react-icons/bs';
 import { Suranna } from "@next/font/google";
+import {Link} from "next/link"
 
 function Register() {
   const [checked, setChecked] = React.useState(false);
