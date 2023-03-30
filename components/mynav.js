@@ -111,7 +111,7 @@ fetchText();
  console.log( e.target.value.replace(/\s/g, ''))
    
    if(e.target.value.replace(/\s/g, '').length== 1){
-    let  response = await fetch("http://localhost:3000/api/search",{method: 'POST',
+    let  response = await fetch("https://nakset.vercel.app/api/search",{method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     },

@@ -56,7 +56,7 @@ export default function Home({ result }) {
       return
     }
 
-    let response = await fetch("http://localhost:3000/api/unRegistredEmail", {
+    let response = await fetch("https://nakset.vercel.app/api/unRegistredEmail", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'

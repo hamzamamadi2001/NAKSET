@@ -60,7 +60,7 @@ setOldAdress(result[2])
  
  
   async function fetchText() {
-  let response = await fetch('http://localhost:3000/api/wishlist',{method: 'POST',
+  let response = await fetch('https://nakset.vercel.app/api/wishlist',{method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   }});

@@ -68,7 +68,7 @@ function About() {
     setChosenCountryId(e.target.value)
     setChosenCountry(label)
 
-     let response = await fetch("http://localhost:3000/api/getCitys",{method: 'POST',
+     let response = await fetch("https://nakset.vercel.app/api/getCitys",{method: 'POST',
           headers: {
             'Content-Type': 'application/json;charset=utf-8'
           },
@@ -97,7 +97,7 @@ function About() {
      setError(true)
     console.log("thesse are the info ",chosencity,chosencountry)
     if(postal==null || postal.length<=0||postal == undefined || chosencountry == undefined || chosencountry==null || chosencity == undefined || chosencity==null || building == undefined || building==null ||building.length<=0){setError(true); return false}
-    let response = await fetch("http://localhost:3000/api/updateAddress",{method: 'POST',
+    let response = await fetch("https://nakset.vercel.app/api/updateAddress",{method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     },
@@ -148,7 +148,7 @@ const [adress, setAdress] = useState([]);
     
     const handleSearch =async (id) => {
 
-      let response = await fetch("http://localhost:3000/api/getUserAddress",{method: 'POST',
+      let response = await fetch("https://nakset.vercel.app/api/getUserAddress",{method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
@@ -174,7 +174,7 @@ setOldAdress(result[2])
  
 if(session){
   async function fetchText() {
-  let response = await fetch('http://localhost:3000/api/useradress',{method: 'POST',
+  let response = await fetch('https://nakset.vercel.app/api/useradress',{method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   },
