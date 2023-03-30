@@ -488,7 +488,7 @@ className="mx-2"
  {showdrop && opensearch && (<div className="w-full rounded-sm border-gray-400 border-2 mx-5 top-12 left-1/2 h-96 bg-white">
    
 {result.length>0?result.map((element,index)=>{
-return(<div className="w-full  bg-slate-200 mb-5 flex border-b-2 border-white  justify-start items-start ">
+return(<div key={index} className="w-full  bg-slate-200 mb-5 flex border-b-2 border-white  justify-start items-start ">
 <Image width="100" height="100" src={element.photo} ></Image>
 <div className="flex justify-evenly flex-col items-start">
 <p className="text-black font-bold">{element.name}</p>

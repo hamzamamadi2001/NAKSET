@@ -403,12 +403,12 @@ let commits = await response.json();
 
         <Label htmlFor="agree">
           I agree with the{' '}
-          <a
+          <Link
             href="/forms"
             className="text-blue-600 hover:underline dark:text-blue-500"
           >
             terms and conditions
-          </a>
+          </Link>
         </Label>
       </div>
       {error.condition && <span className='text-red-600 font-bold text-xs'>{error.condition}</span>}      
@@ -420,12 +420,12 @@ let commits = await response.json();
     </button>
     <Label htmlFor="agree">
     Already have an account?{' '}
-          <a
+          <Link
             href="/login"
             className="text-blue-600 my-4 hover:underline dark:text-blue-500"
           >
             login
-          </a>
+          </Link>
         </Label>
       <div className='flex justify-center items-center w-full'>
         
