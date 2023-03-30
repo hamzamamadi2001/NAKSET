@@ -50,7 +50,7 @@ export default function App() {
      
         };
   return (
-<Footer className="w-full bg-blue-800 rounded-none mt-10" container={true}>
+<Footer className="w-full bg-gray-800 rounded-none mt-10" container={true}>
   <div className="w-full  ">
     <div className="grid w-full grid-cols-1 justify-between sm:flex sm:justify-between md:flex md:grid-cols-2">
       <div className="flex flex-col w-full justify-center md:w-1/2">

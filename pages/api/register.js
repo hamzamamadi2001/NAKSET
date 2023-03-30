@@ -2,7 +2,7 @@
  import  prisma   from '../../lib/prismadb'
 
  export default async function handler(req ,res ){
-  console.log("i am in registation")
+  console.log("i am in registation",req.body)
 
   const validateEmail = (email) => {
     if(email == undefined || email==null) { return false}
@@ -28,7 +28,9 @@
   }
 
 hash(req.body.password, 10).then( async function(hash) {
-const result = await prisma.user.create({data:{email:req.body.email,password:hash,provider:"credentials",name:req.body.username,photo:"https://static.vecteezy.com/system/resources/previews/000/574/512/large_2x/vector-sign-of-user-icon.jpg"}}).finally(async()=>{prisma.$disconnect()})
+
+  
+const result = await prisma.user.create({data:{email:req.body.email,password:hash,provider:"credentials",name:req.body.username,photo:"https://static.vecteezy.com/system/resources/previews/000/574/512/large_2x/vector-sign-of-user-icon.jpg",adress:{create:{address:req.body.address}},meta_info:{create:{firstname:req.body.firstname,surname:req.body.username,under18:req.body.under18,householdnumber:req.body.householdnumber,dateofbirth:req.body.birthday,mobile:req.body.mobile,phone:req.body.phone,title:req.body.title}}},include:{adress:true}}).finally(async()=>{prisma.$disconnect()})
  console.log(result)
   console.log("i am in 3333",result)
   if(result){

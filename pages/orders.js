@@ -29,7 +29,7 @@ const [order, setRealOrders] = useState(null);
 
 
      
-    useEffect(() => {
+    useEffect(async () => {
     
 
     
@@ -52,7 +52,7 @@ const [order, setRealOrders] = useState(null);
         }
       }
       
-      fetchText();
+      await fetchText();
      
       
       }, [ ]);

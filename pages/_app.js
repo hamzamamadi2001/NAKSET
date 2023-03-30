@@ -1,6 +1,6 @@
 import '../styles/globals.css'
- import Nav from '../components/nav'
-import Fot from '../components/footer'
+ import Nav from '../components/navbar'
+import Fot from '../components/foo'
 import { NextUIProvider } from '@nextui-org/react';
 import {SessionProvider} from 'next-auth/react'
 import Head from 'next/head'
@@ -9,11 +9,12 @@ import  store  from '../store'
 import { PersistGate } from 'redux-persist/integration/react';
 import {persistStore} from "redux-persist"
 import { useRouter } from 'next/router'
- 
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
 let persistor = persistStore(store)
   return (
+    
     <PersistGate persistor={persistor}>
     <Provider store ={store}>
      <SessionProvider session={pageProps.session}>
@@ -30,7 +31,8 @@ let persistor = persistStore(store)
 
            {router.pathname=="/sum"||router.pathname=="/basket"?null:<Fot></Fot>}
     </SessionProvider>
-             </Provider></PersistGate>)
+             </Provider></PersistGate>
+             )
           }
 
 export default  MyApp

@@ -31,6 +31,6 @@ export default withAuth(
   
 )
 
-export const config = { matcher: ["/profile","/orders"] }
+export const config = { matcher: ["/profile","/orders","/completeOrder"] }
 
 

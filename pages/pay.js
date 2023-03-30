@@ -1,5 +1,5 @@
 import React ,{useState}from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import {loadStripe} from '@stripe/stripe-js/pure';
 import { Elements } from "@stripe/react-stripe-js";
 import { useSelector } from 'react-redux'
 import { useRouter } from "next/router";

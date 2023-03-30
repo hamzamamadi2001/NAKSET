@@ -3,7 +3,7 @@ import React,{useState} from 'react'
 import { FcGoogle } from 'react-icons/fc';
 import { BsFacebook } from 'react-icons/bs';
 import { BsTwitter } from 'react-icons/bs';
-import {signIn,signOut} from 'next-auth/react'
+import { signIn,signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 function About() {
@@ -99,44 +99,38 @@ function About() {
  }
   return (
     
-  <form className="flex flex-col gap-4        p-4">
+  <form className="flex w-screen justify-center items-center h-screen flex-col gap-4 ">
+    <p className='text-center text-gray-700 font-bol font-serif text-4xl'>Account sign in</p>
 { error2 && <p className='w-full text-lg text-red-700 text-center'>the username or password is wrong</p>}
  <p className='w-full text-lg text-red-700 text-center'>{(!inputText() || existerror)&&sending ?"you must fill out all fields correctly":"" }</p>
 
   
-    <div className="mb-2 block">
-      <Label
-        htmlFor="email2"
-        value="Your email"
-      />
-    </div>
+     
     <input
+    className='md:w-1/3 w-full h-14 placeholder-slate-900'
           type="email"
           name="email"
           placeholder='Enter your email'
           value={input.email}
           onChange={onInputChange}
           onBlur={validateInput}></input>
-        {error.email && <span className= 'w-48 break-words text-red-600 font-bold text-xs'>{error.email}</span>}
+        {error.email && <span className= 'md:w-1/3 w-full break-words text-red-600 font-bold text-xs'>{error.email}</span>}
    
    
-    <div className="mb-2 block">
-      <Label
-        htmlFor="password2"
-        value="Your password"
-      />
-    </div>
+    
     <input
+    className='md:w-1/3 w-full h-14 placeholder-slate-900'
+
           type="password"
           name="password"
           placeholder='Enter Password'
           value={input.password}
           onChange={onInputChange}
           onBlur={validateInput}></input>
-        {error.password && <span className='w-48 break-words text-red-600 font-bold text-xs'>{error.password}</span>}
+        {error.password && <span className='md:w-1/3 w-full break-words text-red-600 font-bold text-xs'>{error.password}</span>}
  
   
-  <Button onClick={async ()=>{
+  <button className='w-1/6 bg-inherit hover:bg-gray-300 font-bold p-5 text-gray-500 hover:text-black border-gray-400 border-2 text-gra' onClick={async ()=>{
      setLoading(true)
     if(!inputText() || existerror){
     
@@ -153,30 +147,30 @@ function About() {
     color="info"
     aria-label="Info spinner example"
   />:"Login"}
-    </Button>
+    </button>
 
   <div className='flex justify-center items-center w-full'>
-    <hr className='bg-black h-1 w-full'></hr>
-     <p className='font-paris'>or</p>
-     <hr className='bg-black h-1 w-full'></hr>
+    <hr className='bg-black h-1 w-1/5'></hr>
+     <p className='font-paris'>or by</p>
+     <hr className='bg-black h-1 w-1/5'></hr>
 
   </div>
  
 
 
-  <Button   onClick={async (e)=>{ e.preventDefault(); signIn("google",{callbackUrl:"https://nakset.vercel.app"}).then((res)=>{console.log(res)})}} className='flex flex-row-reverse justify-around items-center w-full' outline={true}
+  <Button style={{width:"50%"}}   onClick={async (e)=>{ e.preventDefault(); signIn("google",{callbackUrl:"https://nakset.vercel.app"}).then((res)=>{console.log(res)})}} className='flex flex-row-reverse justify-around items-center w-full' outline={true}
       color="light">
     <FcGoogle  className="mr-2"></FcGoogle>
      <p>Google</p>
     </Button>
 
-    <Button onClick={async (e)=>{ e.preventDefault(); signIn("twitter",{callbackUrl:"https://nakset.vercel.app"}).then((res)=>{console.log(res)})}}  className='flex flex-row-reverse justify-around items-center w-full' outline={true}
+    <Button style={{width:"50%"}} onClick={async (e)=>{ e.preventDefault(); signIn("twitter",{callbackUrl:"https://nakset.vercel.app"}).then((res)=>{console.log(res)})}}  className='flex flex-row-reverse justify-around items-center w-full' outline={true}
      color="light">
 <BsTwitter color='#1d9bf0' className="mr-2" ></BsTwitter>
 <p>twitter</p>
 
     </Button>
-  <Button onClick={async (e)=>{ e.preventDefault(); signIn("facebook",{callbackUrl:"https://nakset.vercel.app"}).then((res)=>{console.log(res)})}} className='flex flex-row-reverse justify-around items-center w-full' outline={true}
+  <Button style={{width:"50%"}} onClick={async (e)=>{ e.preventDefault(); signIn("facebook",{callbackUrl:"https://nakset.vercel.app"}).then((res)=>{console.log(res)})}} className='flex flex-row-reverse justify-around items-center w-full' outline={true}
       color="light">
 <BsFacebook color='blue' className="mr-2" ></BsFacebook>
 <p>Facebook</p>
@@ -186,6 +180,25 @@ function About() {
 </form>
  
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions)
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      session,
+    },
+  }
 }
 
 export default About

@@ -5,6 +5,9 @@ import CardBasket from '../components/CartBbasket'
 import { useSelector } from 'react-redux'
 import { ImLocation2 } from 'react-icons/im';
 import { TbMoodEmpty } from 'react-icons/tb';
+import { AiFillCloseCircle } from 'react-icons/ai';
+
+
 import Bay from './pay'
 import Image from 'next/image'
 
@@ -65,7 +68,7 @@ function About() {
     setChosenCountryId(e.target.value)
     setChosenCountry(label)
 
-     let response = await fetch("https://nakset.vercel.app/api/getCitys",{method: 'POST',
+     let response = await fetch("http://localhost:3000/api/getCitys",{method: 'POST',
           headers: {
             'Content-Type': 'application/json;charset=utf-8'
           },
@@ -94,7 +97,7 @@ function About() {
      setError(true)
     console.log("thesse are the info ",chosencity,chosencountry)
     if(postal==null || postal.length<=0||postal == undefined || chosencountry == undefined || chosencountry==null || chosencity == undefined || chosencity==null || building == undefined || building==null ||building.length<=0){setError(true); return false}
-    let response = await fetch("https://nakset.vercel.app/api/updateAddress",{method: 'POST',
+    let response = await fetch("http://localhost:3000/api/updateAddress",{method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     },
@@ -145,7 +148,7 @@ const [adress, setAdress] = useState([]);
     
     const handleSearch =async (id) => {
 
-      let response = await fetch("https://nakset.vercel.app/api/getUserAddress",{method: 'POST',
+      let response = await fetch("http://localhost:3000/api/getUserAddress",{method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
@@ -171,7 +174,7 @@ setOldAdress(result[2])
  
 if(session){
   async function fetchText() {
-  let response = await fetch('https://nakset.vercel.app/api/useradress',{method: 'POST',
+  let response = await fetch('http://localhost:3000/api/useradress',{method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   },
@@ -238,7 +241,7 @@ if(Number(result) <=1)
     <div>
             <p className='text-center text-6xl font-tar font-bold text-white w-full bg-amber-600 p-20  '> your cart </p>
 
-    <div className='container mx-auto mt-20 grid grid-flow-row gap-1 min-h-screen grid-cols-1 md:grid-cols-3'>
+    <div className='container  relative   mt-20 grid grid-flow-row    min-h-screen grid-cols-1 md:grid-cols-1'>
         
 <div className=' col-span-2 rounded-2xl '> 
                  {items.length>0?(<>
@@ -250,19 +253,19 @@ if(Number(result) <=1)
         <div className='   mb-3 flex justify-between items-center'>
 {adress.length>0?(        <p  className='text-base md:text-2xl font-medium'>{adress[0].country+','+adress[0].city+','+adress[0].postal+','+adress[0].street}</p>
 ):<p>no adress exist go to your profile and add your address first</p>}        <React.Fragment>
-<Button onClick={onClick}>
+<Button onClick={()=>{setOpen(true)}}>
  Edit address
 </Button>
-<Modal
-  show={open}
-  size="md"
-  popup={true}
-  onClose={()=>setOpen(false)}
+{open && (<div
+className='absolute z-50   rounded-lg border-2 border-gray-400    bg-white  w-full h-96'
+   
+  
+   
+  
 >
-  <Modal.Header />
-  <Modal.Body>
-  <div className='bg-slate-300' > 
-     <div className='w-full h-1/2 grid md:grid-cols-2 grid-cols-1   p-6 '>
+ <AiFillCloseCircle size={40} color="black" className='top-0 left-0 cursor-pointer' onClick={()=>{setOpen(false)}}></AiFillCloseCircle>
+  
+     <div className='w-full h-1/2 grid md:grid-cols-2 grid-cols-1     '>
       <div  > 
         <div className="mb-2 block  ">
           <Label
@@ -293,7 +296,7 @@ if(Number(result) <=1)
         <select className="rounded-lg w-full" onChange={handleChangeCity} value={chosencityid} >
 
 
-{city.map((res,index) =>{
+{city.map((res,index) => {
   if(index==0)
   return(  <option key={res.id} value={res.id}>{res.name}</option>
   )
@@ -346,16 +349,15 @@ value={building}
 
 
       </div>
-      <div className='w-full items-center p-2  h-12 flex flex-row-reverse'>
+      <div className='w-full items-center    h-12 flex flex-row-reverse'>
   <Button onClick={async ()=>{await updateAdress()}}>save new address</Button>
 </div>
 {msg&&<p className='text-green-500 font-bold text-lg text-center'>Your adress has been updated</p>
 }
 {msgerror&&<p className='text-red-500 font-bold text-lg text-center'>Your adress id wrong</p>
-}
-</div>
-  </Modal.Body>
-</Modal>
+} 
+   
+</div>)}
 </React.Fragment>
         </div> 
           
@@ -370,15 +372,12 @@ value={building}
         <Table  striped={true}>
   <Table.Head>
   <Table.HeadCell className='text-center'>
-      Product image
+      Products
     </Table.HeadCell>
     
      
  
-   
-    <Table.HeadCell className='text-center'>
-       Delete
-    </Table.HeadCell >
+    
   </Table.Head>
   <Table.Body className="divide-y ">  
         {items.map((res,index) => (
@@ -393,8 +392,8 @@ value={building}
      <TbMoodEmpty color='gray' size={100}></TbMoodEmpty>
      </div>    
          )}
-        </div>
-        <div className='  col-span-1'>
+        {/* </div>
+        <div className='  col-span-1'> */}
             <div className='w-full p-4 rounded-2xl bg-slate-400'>
                 <p className='text-center text-white text-2xl'>Summary</p>
                <div className='px-4  mb-3 flex justify-between items-center'><p  className='text-2xl font-medium'>subtotal:</p><p>{(Math.round( totalPrice*currencyValue * 100) / 100).toFixed(2)+" "+symbol}</p></div> 

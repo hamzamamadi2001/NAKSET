@@ -1,37 +1,68 @@
 generator client {
-  provider = "prisma-client-js"
- 
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
-  id       Int    @id @unique @default(autoincrement())
-  name     String @db.Text
-  email    String @unique
-  password String @db.Text
-  provider String @db.Text
-  photo    String @default("https://static.vecteezy.com/system/resources/previews/000/574/512/large_2x/vector-sign-of-user-icon.jpg")
-  order    Order[]
-  adress address?
+  id        Int        @id @unique @default(autoincrement())
+  name      String     @db.Text
+  email     String     @unique
+  password  String     @db.Text
+  provider  String     @db.Text
+  photo     String     @default("https://static.vecteezy.com/system/resources/previews/000/574/512/large_2x/vector-sign-of-user-icon.jpg")
+  meta_info MetaInfo?
+  order     Order[]
+  rating    Rating[]
+  wishlist  Wishlist[]
+  adress    address?
+}
+
+model Rating {
+  userId     Int
+  productId  Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+  rating     Int
+  product    Product  @relation(fields: [productId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, productId])
+  @@index([productId], map: "Rating_productId_fkey")
+}
+
+model Wishlist {
+  userId     Int
+  productId  Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+  product    Product  @relation(fields: [productId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, productId])
+  @@index([productId], map: "Wishlist_productId_fkey")
 }
 
 model Product {
-  id           Int      @unique @default(autoincrement())
-  name         String   @db.Text
+  id           Int        @unique @default(autoincrement())
+  name         String     @db.Text
   price        Float
-  unit         String   @db.Text
+  unit         String     @db.Text
   photo        String
   categoryId   Int
   baseQuantity Float?
   city         Int?
-  category     Category @relation(fields: [categoryId], references: [id])
+  category     Category   @relation(fields: [categoryId], references: [id])
+  rating       Rating[]
+  wishlist     Wishlist[]
 
   @@index([categoryId], map: "Product_categoryId_fkey")
+  @@fulltext([name])
 }
 
 model Category {
@@ -51,8 +82,23 @@ model Order {
   currencyValue Float
   status        String
   total         Float
-  user   User   @relation(fields: [userId], references: [id],onUpdate: NoAction)
-  
+  user          User    @relation(fields: [userId], references: [id], onUpdate: NoAction)
+
+  @@index([userId], map: "Order_userId_fkey")
+}
+
+model MetaInfo {
+  id              Int     @unique(map: "id") @default(autoincrement())
+  title           String? @db.Text
+  firstname       String? @db.Text
+  surname         String? @db.Text
+  phone           String? @db.Text
+  mobile          String? @db.Text
+  dateofbirth     String? @db.Text
+  householdnumber String? @db.Text
+  under18         String? @db.Text
+  userId          Int     @unique
+  user            User    @relation(fields: [userId], references: [id])
 }
 
 model address {
@@ -63,8 +109,9 @@ model address {
   postal   String? @db.Text
   phone    String? @db.Text
   street   String? @db.Text
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique // relation scalar field (used in the `@relation` attribute above)
+  userId   Int     @unique
+  address  String? @db.Text
+  user     User    @relation(fields: [userId], references: [id])
 }
 
 model Citys {
@@ -77,7 +124,6 @@ model Countrys {
   id   Int     @id
   name String? @db.Text
   code String? @db.Text
-
 }
 
 model NotRegistredEmails {
